@@ -7,15 +7,15 @@ from PIL import Image
 import torch
 from transformers import AutoModelForCausalLM, AutoProcessor
 
-# Load Model from Hugging Face
-MODEL_NAME = "microsoft/trocr-large-printed"  # Example text recognition model
+
+MODEL_NAME = "starvector/starvector-8b-im2svg"  
 model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, torch_dtype=torch.float16)
 processor = AutoProcessor.from_pretrained(MODEL_NAME)
 
 model.cuda()
 model.eval()
 
-# FastAPI App
+
 app = FastAPI()
 
 UPLOAD_DIR = Path("./uploads")
