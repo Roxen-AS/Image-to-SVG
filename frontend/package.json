@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "graphql-request": "^7.1.2",
+    "react": "^19.1.0"
+  }
+}
