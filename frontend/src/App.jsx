@@ -1,11 +1,11 @@
-import React from "react";
-import UploadForm from "./components/UploadForm";
+import ImageToSvgConverter from "./components/ImageToSvgConverter";
 
-const App = () => (
-  <div>
-    <h1>Image to SVG Converter</h1>
-    <UploadForm />
-  </div>
-);
+function App() {
+  return (
+    <div>
+      <ImageToSvgConverter />
+    </div>
+  );
+}
 
 export default App;

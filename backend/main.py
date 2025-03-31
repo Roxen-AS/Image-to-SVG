@@ -9,7 +9,11 @@ from transformers import AutoModelForCausalLM, AutoProcessor
 
 
 MODEL_NAME = "starvector/starvector-8b-im2svg"  
-model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, torch_dtype=torch.float16)
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME, 
+    torch_dtype=torch.float16, 
+    trust_remote_code=True  
+)
 processor = AutoProcessor.from_pretrained(MODEL_NAME)
 
 model.cuda()
