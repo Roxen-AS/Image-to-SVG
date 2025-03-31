@@ -1,7 +1,7 @@
 fastapi
-strawberry-graphql
-strawberry-graphql[fastapi]
 uvicorn
+strawberry-graphql
+pydantic
 pillow
 torch
 transformers
