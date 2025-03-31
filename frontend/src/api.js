@@ -1,21 +1,21 @@
-import { GraphQLClient } from "graphql-request";
+import { request, gql } from "graphql-request";
 
-const client = new GraphQLClient("http://localhost:8000/graphql");
+const API_URL = "http://localhost:8000/graphql";
+
+const UPLOAD_IMAGE_MUTATION = gql`
+  mutation UploadImage($file: Upload!) {
+    uploadImage(file: $file) {
+      filename
+      extracted_text
+    }
+  }
+`;
 
 export const uploadImage = async (file) => {
-  const query = `
-    mutation ($file: Upload!) {
-      uploadImage(file: $file) {
-        filename
-        svgCode
-      }
-    }
-  `;
-
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch("http://localhost:8000/graphql", {
+  const response = await fetch(API_URL, {
     method: "POST",
     body: formData,
   });

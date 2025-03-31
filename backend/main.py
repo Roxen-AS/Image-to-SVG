@@ -1,35 +1,39 @@
-import sys
-from pathlib import Path
 import uuid
+from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, HTTPException
 import strawberry
 from strawberry.fastapi import GraphQLRouter
+from PIL import Image
+import torch
+from transformers import AutoModelForCausalLM, AutoProcessor
 
-sys.path.append("/workspaces/Image-to-SVG/star-vector")
+# Load Model from Hugging Face
+MODEL_NAME = "microsoft/trocr-large-printed"  # Example text recognition model
+model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, torch_dtype=torch.float16)
+processor = AutoProcessor.from_pretrained(MODEL_NAME)
 
-from starvector.model import StarVector  # persisting import issue 
+model.cuda()
+model.eval()
 
+# FastAPI App
 app = FastAPI()
 
 UPLOAD_DIR = Path("./uploads")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
-model = StarVector.from_pretrained("/workspaces/Image-to-SVG/star-vector/pretrained") 
-
-
 @strawberry.type
-class SVGResponse:
+class TextResponse:
     filename: str
-    svg_code: str
+    extracted_text: str
 
 @strawberry.type
 class Query:
-    hello: str = "Welcome to Image-to-SVG API"
+    hello: str = "Welcome to Image-to-Text API"
 
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def upload_image(self, file: UploadFile = File(...)) -> SVGResponse:
+    async def upload_image(self, file: UploadFile = File(...)) -> TextResponse:
         file_extension = file.filename.split(".")[-1].lower()
         if file_extension not in ["png", "jpg", "jpeg"]:
             raise HTTPException(status_code=400, detail="Unsupported file type")
@@ -40,12 +44,20 @@ class Mutation:
         with open(file_path, "wb") as buffer:
             buffer.write(await file.read())
 
-        # conversion
-        svg_code = model.vectorize_image(str(file_path))
+        # Process Image
+        image_pil = Image.open(file_path).convert("RGB")
+        image = processor(image_pil, return_tensors="pt")["pixel_values"].cuda()
 
-        return SVGResponse(filename=unique_filename, svg_code=svg_code)
+        with torch.no_grad():
+            outputs = model.generate(image)
 
+        extracted_text = processor.batch_decode(outputs, skip_special_tokens=True)[0]
+
+        return TextResponse(filename=unique_filename, extracted_text=extracted_text)
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)
-graphql_app = GraphQLRouter(schema)
-app.include_router(graphql_app, prefix="/graphql")
+app.include_router(GraphQLRouter(schema), prefix="/graphql")
+
+@app.get("/")
+def read_root():
+    return {"message": "Image Processing FastAPI Server is running!"}
