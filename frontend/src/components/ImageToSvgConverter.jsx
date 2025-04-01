@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
 import { Upload, Download } from "lucide-react";
+import "/workspaces/Image-to-SVG/frontend/src/components/ImageToSvgConverter.css";
 
 export default function ImageToSvgConverter() {
   const [image, setImage] = useState(null);
@@ -18,6 +19,7 @@ export default function ImageToSvgConverter() {
 
   const handleConvertToSvg = async () => {
     if (!image) return;
+    // Assume conversion happens here and returns an SVG string
     const svgContent = "<svg>...</svg>";
     setSvg(svgContent);
   };
@@ -32,41 +34,41 @@ export default function ImageToSvgConverter() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6 gap-6">
-      <h1 className="text-3xl font-bold text-gray-800">Image to SVG Converter</h1>
-
-      <div className="flex gap-6">
-        <Card className="w-64 h-64 flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-white">
-          <CardContent className="flex items-center justify-center w-full h-full">
+    <div className="container">
+      <h1 className="title">Image to SVG Converter</h1>
+      <div className="preview-container">
+        {/* Upload Area */}
+        <Card className="upload-card">
+          <CardContent className="upload-content">
             {image ? (
-              <img src={image} alt="Uploaded" className="max-w-full max-h-full object-contain" />
+              <img src={image} alt="Uploaded" className="preview-image" />
             ) : (
-              <label className="cursor-pointer text-gray-500 flex flex-col items-center">
-                <Upload className="w-8 h-8" />
-                <span>Upload PNG</span>
+              <label className="upload-label">
+                <Upload className="upload-icon" />
+                <span className="upload-text">Click or drag here to upload file (PNG)</span>
                 <input type="file" accept="image/png" className="hidden" onChange={handleImageUpload} />
               </label>
             )}
           </CardContent>
         </Card>
 
-        <Card className="w-64 h-64 flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg bg-white">
-          <CardContent className="flex items-center justify-center w-full h-full">
+        {/* SVG Preview Area */}
+        <Card className="preview-card">
+          <CardContent className="preview-content">
             {svg ? (
-              <div dangerouslySetInnerHTML={{ __html: svg }} className="max-w-full max-h-full" />
+              <div dangerouslySetInnerHTML={{ __html: svg }} className="svg-preview" />
             ) : (
-              <span className="text-gray-500">SVG Preview</span>
+              <span className="placeholder-text">SVG Preview</span>
             )}
           </CardContent>
         </Card>
       </div>
-
-      <div className="flex gap-4">
-        <Button onClick={handleConvertToSvg} disabled={!image} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:bg-blue-700">
+      <div className="button-container">
+        <Button onClick={handleConvertToSvg} disabled={!image} className="convert-button">
           Convert to SVG
         </Button>
-        <Button onClick={handleDownloadSvg} disabled={!svg} className="bg-green-600 text-white px-4 py-2 rounded-lg font-bold shadow-md flex items-center hover:bg-green-700">
-          <Download className="w-5 h-5 mr-2" /> Download SVG
+        <Button onClick={handleDownloadSvg} disabled={!svg} className="download-button">
+          <Download className="download-icon" /> Download SVG
         </Button>
       </div>
     </div>

@@ -1,0 +1,138 @@
+/* ImageToSvgConverter.css */
+
+body {
+    background: url('https://www.toptal.com/designers/subtlepatterns/patterns/marble.png') repeat;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 2rem;
+  }
+  
+  .preview-container {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .upload-card, .preview-card {
+    width: 20rem;
+    height: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    background-color: white;
+  }
+  
+  .upload-card {
+    border: 2px dashed #9ca3af;
+  }
+  
+  .preview-card {
+    border: 2px solid #9ca3af;
+  }
+  
+  .upload-content, .preview-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+  }
+  
+  .upload-label {
+    cursor: pointer;
+    color: #6b7280;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .upload-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .upload-text {
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #6b7280;
+  }
+  
+  .preview-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  .placeholder-text {
+    color: #6b7280;
+    font-size: 1.25rem;
+  }
+  
+  .svg-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  
+  .convert-button {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .convert-button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .download-button {
+    background-color: #16a34a;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .download-button:hover {
+    background-color: #15803d;
+  }
+  
+  .download-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+  }
+  
